@@ -408,7 +408,7 @@ module.exports = class Stealth {
   }
 
   /**
-   * Returns data needed to construct a block to work on:\n"
+   * Returns data needed to construct a block to work on:
    *  "version" : block version
    *  "previousblockhash" : hash of current highest block
    *  "transactions" : contents of non-coinbase transactions that should be included in the next block

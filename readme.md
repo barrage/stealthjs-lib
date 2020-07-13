@@ -241,21 +241,22 @@ Returns the hash of the best block in the longest block chain.
 <a name="getblock"></a>
 
 ### getblock(hash, [txInfo]) ⇒ <code>Promise.&lt;Object&gt;</code>
-Returns data needed to construct a block to work on:\n"
- "version" : block version
- "previousblockhash" : hash of current highest block
- "transactions" : contents of non-coinbase transactions that should be included in the next block
- "coinbaseaux" : data that should be included in coinbase
- "coinbasevalue" : maximum allowable input to coinbase transaction, including the generation award and transaction fees
- "target" : hash target
- "mintime" : minimum timestamp appropriate for next block
- "curtime" : current timestamp
- "mutable" : list of ways the block template may be changed
- "noncerange" : range of valid nonces
- "sigoplimit" : limit of sigops in blocks
- "sizelimit" : limit of block size
- "bits" : compressed target of next block
- "height" : height of the next block
+Returns data needed to construct a block to work on:
+ - "version" : block version
+ - "previousblockhash" : hash of current highest block
+ - "transactions" : contents of non-coinbase transactions that should be included in the next block
+ - "coinbaseaux" : data that should be included in coinbase
+ - "coinbasevalue" : maximum allowable input to coinbase transaction, including the generation award and transaction fees
+ - "target" : hash target
+ - "mintime" : minimum timestamp appropriate for next block
+ - "curtime" : current timestamp
+ - "mutable" : list of ways the block template may be changed
+ - "noncerange" : range of valid nonces
+ - "sigoplimit" : limit of sigops in blocks
+ - "sizelimit" : limit of block size
+ - "bits" : compressed target of next block
+ - "height" : height of the next block
+
 See https://en.bitcoin.it/wiki/BIP_0022 for full specification.
 
 | Param | Type | Default |
@@ -602,9 +603,9 @@ in past transactions
 
 ### listreceivedbyaccount([minConf], [includeEmpty]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns an array of objects containing:
- "account" : the account of the receiving addresses
- "amount" : total amount received by addresses with this account
- "confirmations" : number of confirmations of the most recent transaction included
+ - "account" : the account of the receiving addresses
+ - "amount" : total amount received by addresses with this account
+ - "confirmations" : number of confirmations of the most recent transaction included
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
@@ -615,10 +616,10 @@ Returns an array of objects containing:
 
 ### listreceivedbyaddress([minConf], [includeEmpty]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns an array of objects containing:
-  "address" : receiving address
-  "account" : the account of the receiving address
-  "amount" : total amount received by the address
-  "confirmations" : number of confirmations of the most recent transaction included
+  - "address" : receiving address
+  - "account" : the account of the receiving address
+  - "amount" : total amount received by the address
+  - "confirmations" : number of confirmations of the most recent transaction included
 
 | Param | Type | Default | Description |
 | --- | --- | --- | --- |
