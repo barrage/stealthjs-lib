@@ -4,7 +4,7 @@
   "description": "Stealth coin (XST) SDK library for Javascript",
   "main": "Stealth.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --allow-uncaught",
+    "test": "./node_modules/.bin/mocha --experimental-modules --allow-uncaught",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
   },
@@ -27,6 +27,9 @@
     "eslint-config-airbnb-base": "^14.2.0",
     "eslint-plugin-import": "^2.22.0",
     "mocha": "^8.0.1"
+  },
+  "engines": {
+    "node": ">=12.16.1"
   },
   "dependencies": {
     "ky": "^0.20.0",
