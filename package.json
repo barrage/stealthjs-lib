@@ -1,6 +1,6 @@
 {
   "name": "stealthjs-lib",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "Stealth coin (XST) SDK library for Javascript",
   "main": "Stealth.js",
   "scripts": {
