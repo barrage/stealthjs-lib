@@ -63,6 +63,7 @@ export default class Stealth {
 
   /**
    * @param {object} options
+   * @constructor
    */
   constructor(options = {}) {
     if (typeof options !== "object" || !options) {
@@ -98,7 +99,7 @@ export default class Stealth {
   }
 
   /**
-   * Make new request
+   * Make request to any of the RPC functions directly
    *
    * @param {string} method
    * @param {any[]} params
@@ -114,20 +115,26 @@ export default class Stealth {
   }
 
   /**
-   * @param {number} required
+   * Add a n-required-to-sign multi-signature address to the wallet
+   * each key is an XST address or hex-encoded public key
+   * If [account] is specified, assign address to [account].
+   *
+   * @param {number} nRequired
    * @param {string[]} keys
    * @param {string} [account=""]
    * @return {Promise<Object>}
    */
-  async addmultisigaddress(required, keys, account = "") {
+  async addmultisigaddress(nRequired, keys, account = "") {
     return this.request("addmultisigaddress", [
-      parseInt(`${required}`),
+      parseInt(`${nRequired}`),
       keys.join(","),
       account,
     ]);
   }
 
   /**
+   * Safely copies wallet.dat to destination, which can be a directory or a path with filename.
+   *
    * @param {string} destination
    * @return {Promise<Object>}
    */
@@ -136,6 +143,8 @@ export default class Stealth {
   }
 
   /**
+   * Check wallet for integrity.
+   *
    * @return {Promise<Object>}
    */
   async checkwallet() {
@@ -143,6 +152,13 @@ export default class Stealth {
   }
 
   /**
+   * "claimqposbalance <txId> <vOut> <amount>
+   *    <txId> is the transaction ID of the input
+   *    <vOut> is the prevout index of the input
+   *    <amount> is the amount to claim
+   *      Amount is real and rounded to the nearest 0.000001.
+   *      Claim plus change is returned to claimant hashed pubkey
+   *
    * @param {string} txId
    * @param {number} vOut
    * @param {number} amount
@@ -157,6 +173,9 @@ export default class Stealth {
   }
 
   /**
+   * delete all transactions from wallet - reload with scanforalltxns
+   * Warning: Backup your wallet first!
+   *
    * @return {Promise<Object>}
    */
   async clearwallettransactions() {
@@ -164,6 +183,14 @@ export default class Stealth {
   }
 
   /**
+   * createrawtransaction [{\"txid\":txid,\"vout\":n},...] {address:amount,...}
+   * Create a transaction spending given inputs
+   * (array of objects containing transaction id and output number),
+   * sending to given address(es).
+   * Returns hex-encoded raw transaction.
+   * Note that the transaction's inputs are not signed, and
+   * it is not stored in the wallet or transmitted to the network.
+   *
    * @param {object[]} transactions [{"txid":txid,"vOut":n},...]
    * @param {object} addresses {address:amount,...}
    * @return {Promise<Object>}
@@ -176,6 +203,8 @@ export default class Stealth {
   }
 
   /**
+   * Return a JSON object representing the serialized, hex-encoded transaction.
+   *
    * @param {string} hex
    * @return {Promise<Object>}
    */
@@ -184,9 +213,9 @@ export default class Stealth {
   }
 
   /**
-   * @param {string} txId
-   * @param {number} vOut
-   * @param {alias} alias
+   * @param {string} txId transaction ID of the input
+   * @param {number} vOut prevout index of the input
+   * @param {alias} alias non-case sensitive staker alias
    * @return {Promise<Object>}
    */
   async disablestaker(txId, vOut, alias) {
@@ -198,6 +227,8 @@ export default class Stealth {
   }
 
   /**
+   * Reveals the private key corresponding to <XSTaddress>.
+   *
    * @param {string} XSTAddress
    * @return {Promise<Object>}
    */
@@ -208,6 +239,11 @@ export default class Stealth {
   }
 
   /**
+   * enablestaker <txId> <vOut> <alias>
+   *    <txId> is the transaction ID of the input
+   *    <vOut> is the prevout index of the input
+   *    <alias> is a non-case sensitive staker alias
+   *
    * @param {string} txId
    * @param {number} vOut
    * @param {string} alias
@@ -222,6 +258,8 @@ export default class Stealth {
   }
 
   /**
+   * Encrypts the wallet with <passphrase>
+   *
    * @param {string} passphrase
    * @return {Promise<Object>}
    */
@@ -232,6 +270,8 @@ export default class Stealth {
   }
 
   /**
+   * Manually exits registry replay (testnet only).
+   *
    * @return {Promise<Object>}
    */
   async exitreplay() {
@@ -239,6 +279,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the current XST address for receiving payments to this account.
+   *
    * @param {string} XSTAddress
    * @return {Promise<Object>}
    */
@@ -249,6 +291,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the current XST address for receiving payments to this account.
+   *
    * @param {string} account
    * @return {Promise<Object>}
    */
@@ -259,6 +303,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the balance of <address>.
+   *
    * @param {string} address
    * @return {Promise<Object>}
    */
@@ -269,6 +315,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the list of addresses for the given account.
+   *
    * @param {string} account
    * @return {Promise<Object>}
    */
@@ -279,6 +327,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns info about <address>.
+   *
    * @param {string} address
    * @return {Promise<Object>}
    */
@@ -289,12 +339,16 @@ export default class Stealth {
   }
 
   /**
+   * Returns [max] inputs of <address> beginning with [start]
+   " For example, if [start]=101 and [max]=100 means to
+   " return the second 100 inputs (if possible).
+   *
    * @param {string} address
-   * @param {number} [start=0]
-   * @param {number} [max=10]
+   * @param {number} [start=1]
+   * @param {number} [max=100]
    * @return {Promise<Object>}
    */
-  async getaddressinputs(address, start = 0, max = 10) {
+  async getaddressinputs(address, start = 1, max = 100) {
     return this.request("getaddressinputs", [
       address,
       parseInt(`${start}`),
@@ -303,12 +357,16 @@ export default class Stealth {
   }
 
   /**
+   * Returns [max] outputs of <address> beginning with [start]
+   " For example, if [start]=101 and [max]=100 means to
+   " return the second 100 outputs (if possible).
+   *
    * @param {string} address
    * @param {number} [start=0]
-   * @param {number} [max=10]
+   * @param {number} [max=100]
    * @return {Promise<Object>}
    */
-  async getaddressoutputs(address, start = 0, max = 10) {
+  async getaddressoutputs(address, start = 0, max = 100) {
     return this.request("getaddressoutputs", [
       address,
       parseInt(`${start}`),
@@ -317,6 +375,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the Stealth network adjusted time.
+   *
    * @return {Promise<Object>}
    */
   async getadjustedtime() {
@@ -324,6 +384,9 @@ export default class Stealth {
   }
 
   /**
+   * If [account] is not specified, returns the server's total available balance.
+   * If [account] is specified, returns the balance in the account.
+   *
    * @param {string} account
    * @param {number} [minConf=1]
    * @return {Promise<Object>}
@@ -336,6 +399,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the hash of the best block in the longest block chain.
+   *
    * @return {Promise<Object>}
    */
   async getbestblockhash() {
@@ -343,6 +408,23 @@ export default class Stealth {
   }
 
   /**
+   * Returns data needed to construct a block to work on:\n"
+   *  "version" : block version
+   *  "previousblockhash" : hash of current highest block
+   *  "transactions" : contents of non-coinbase transactions that should be included in the next block
+   *  "coinbaseaux" : data that should be included in coinbase
+   *  "coinbasevalue" : maximum allowable input to coinbase transaction, including the generation award and transaction fees
+   *  "target" : hash target
+   *  "mintime" : minimum timestamp appropriate for next block
+   *  "curtime" : current timestamp
+   *  "mutable" : list of ways the block template may be changed
+   *  "noncerange" : range of valid nonces
+   *  "sigoplimit" : limit of sigops in blocks
+   *  "sizelimit" : limit of block size
+   *  "bits" : compressed target of next block
+   *  "height" : height of the next block
+   * See https://en.bitcoin.it/wiki/BIP_0022 for full specification.
+   *
    * @param {string} hash
    * @param {boolean} [txInfo=false]
    * @return {Promise<Object>}
@@ -355,6 +437,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns details of a block with given block-number.
+   *
    * @param {string} number
    * @param {boolean} [txInfo=false]
    * @return {Promise<Object>}
@@ -367,6 +451,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the number of blocks in the longest block chain
+   *
    * @return {Promise<Object>}
    */
   async getblockcount() {
@@ -374,6 +460,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns hash of block in best-block-chain at <index>.
+   *
    * @param {number} index
    * @return {Promise<Object>}
    */
@@ -384,6 +472,8 @@ export default class Stealth {
   }
 
   /**
+   * Total block interval for the window in seconds
+   *
    * @param {number} period
    * @param {number} windowSize
    * @param {number} windowSpacing
@@ -398,6 +488,8 @@ export default class Stealth {
   }
 
   /**
+   * RMSD of the block intervals for the window in seconds
+   *
    * @param {string} period
    * @param {string} windowSize
    * @param {string} windowSpacing
@@ -412,6 +504,8 @@ export default class Stealth {
   }
 
   /**
+   * RMSD of the block intervals for the window in seconds
+   *
    * @param {string} period
    * @param {string} windowSize
    * @param {string} windowSpacing
@@ -426,6 +520,8 @@ export default class Stealth {
   }
 
   /**
+   * Show info of synchronized checkpoint.
+   *
    * @return {Promise<Object>}
    */
   async getcheckpoint() {
@@ -433,6 +529,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns key and address information about the child.
+   *
    * @param {string} extendedKey
    * @param {number} child
    * @param {string} [networkByte]
@@ -452,6 +550,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the number of connections to other nodes.
+   *
    * @return {Promise<Object>}
    */
   async getconnectioncount() {
@@ -459,6 +559,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the difficulty as a multiple of the minimum difficulty.
+   *
    * @return {Promise<Object>}
    */
   async getdifficulty() {
@@ -466,6 +568,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns a recent hashes per second performance measurement while generating.
+   *
    * @return {Promise<Object>}
    */
   async gethashespersec() {
@@ -473,6 +577,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns all transactions for the hdaccount.
+   *
    * @param {string} extendedKey
    * @return {Promise<Object>}
    */
@@ -481,6 +587,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns an object containing various state info.
+   *
    * @return {Promise<Object>}
    */
   async getinfo() {
@@ -488,6 +596,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns an object containing mining-related information.
+   *
    * @return {Promise<Object>}
    */
   async getmininginfo() {
@@ -495,6 +605,10 @@ export default class Stealth {
   }
 
   /**
+   * Returns a new XST address for receiving payments.
+   * If [account] is specified (recommended), it is added to the address book
+   * so payments received with the address will be credited to [account].
+   *
    * @param {string} [account]
    * @return {Promise<Object>}
    */
@@ -509,6 +623,9 @@ export default class Stealth {
   }
 
   /**
+   * Returns the hash of the newest block that has a time stamp earlier than <time>
+   * <time> is a unix epoch (seconds)
+   *
    * @param {number} time
    * @return {Promise<Object>}
    */
@@ -519,6 +636,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns new public key for coinbase generation.
+   *
    * @param {string} [account]
    * @return {Promise<Object>}
    */
@@ -533,6 +652,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns a new StealthAddress for receiving payments anonymously.
+   *
    * @param {string} [label]
    * @return {Promise<Object>}
    */
@@ -547,6 +668,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns data about each connected network node.
+   *
    * @return {Promise<Object>}
    */
   async getpeerinfo() {
@@ -554,6 +677,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns qPoS balance owned by <pubKey>
+   *
    * @param {string} pubKey
    * @return {Promise<Object>}
    */
@@ -564,6 +689,9 @@ export default class Stealth {
   }
 
   /**
+   * Returns exhaustive qPoS information
+   * Optional [height] will get info as of that height (expensive)
+   *
    * @param {number} [height]
    * @return {Promise<Object>}
    */
@@ -578,6 +706,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns all transaction ids in memory pool.
+   *
    * @return {Promise<Object>}
    */
   async getrawmempool() {
@@ -585,6 +715,11 @@ export default class Stealth {
   }
 
   /**
+   * If verbose=0, returns a string that is
+   * serialized, hex-encoded data for <txId>.
+   * If verbose is non-zero, returns an Object
+   * with information about <txId>.
+   *
    * @param {string} txId
    * @param {number} [verbose=0]
    * @return {Promise<Object>}
@@ -597,6 +732,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the total amount received by addresses with <account> in transactions with at least [minconf] confirmations.
+   *
    * @param {string} account
    * @param {number} [minConf=1]
    * @return {Promise<Object>}
@@ -609,6 +746,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the total amount received by <XSTaddress> in transactions with at least [minconf] confirmations.
+   *
    * @param {string} XSTAddress
    * @param {number} [minConf=1]
    * @return {Promise<Object>}
@@ -621,6 +760,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the number of addresses with balances greater than [minimum].
+   *
    * @param {number} [start=0]
    * @param {number} [max=10]
    * @return {Promise<Object>}
@@ -641,9 +782,11 @@ export default class Stealth {
     }
 
     return this.request("getrichlist", params);
-  } // [start] [max]
+  }
 
   /**
+   * Returns the number of addresses with balances greater than [minimum].
+   *
    * @param {number} [minimum=0]
    * @return {Promise<Object>}
    */
@@ -658,6 +801,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the id of the staker registered with <alias>.
+   *
    * @param {string} alias
    * @return {Promise<Object>}
    */
@@ -668,6 +813,9 @@ export default class Stealth {
   }
 
   /**
+   * Returns exhaustive information about the qPoS registry.
+   * <alias> is a non-case sensitive staker alias.
+   *
    * @param {string} alias
    * @return {Promise<Object>}
    */
@@ -678,6 +826,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns the current staker price.
+   *
    * @return {Promise<Object>}
    */
   async getstakerprice() {
@@ -685,6 +835,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns proof-of-work subsidy value for the specified value of target.
+   *
    * @param {string} [nTarget]
    * @return {Promise<Object>}
    */
@@ -699,6 +851,8 @@ export default class Stealth {
   }
 
   /**
+   * Get detailed information about <txId>
+   *
    * @param {string} txId
    * @return {Promise<Object>}
    */
@@ -709,6 +863,8 @@ export default class Stealth {
   }
 
   /**
+   * Number of transactions in each window
+   *
    * @param {number} period
    * @param {number} windowSize
    * @param {number} windowSpacing
@@ -723,6 +879,8 @@ export default class Stealth {
   }
 
   /**
+   * Amount of xst transferred in each window
+   *
    * @param {number} period
    * @param {number} windowSize
    * @param {number} windowSpacing
@@ -737,6 +895,8 @@ export default class Stealth {
   }
 
   /**
+   * List commands, or get help for a command.
+   *
    * @param {string} command
    * @return {Promise<Object>}
    */
@@ -751,6 +911,8 @@ export default class Stealth {
   }
 
   /**
+   * Adds a private key (as returned by dumpprivkey) to your wallet.
+   *
    * @param {string} XSTPrivateKey
    * @param {string} [label]
    * @return {Promise<Object>}
@@ -763,6 +925,8 @@ export default class Stealth {
   }
 
   /**
+   * Import an owned StealthAddresses.
+   *
    * @param {string} scanSecret
    * @param {string} spendSecret
    * @param {string} [label]
@@ -777,6 +941,8 @@ export default class Stealth {
   }
 
   /**
+   * Fills the keypool.
+   *
    * @param {string} [newSize]
    * @return {Promise<Object>}
    */
@@ -787,6 +953,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns Object that has account names as keys, account balances as values.
+   *
    * @param {number} [minConf=1]
    * @return {Promise<Object>}
    */
@@ -797,6 +965,10 @@ export default class Stealth {
   }
 
   /**
+   * Lists groups of addresses which have had their common ownership
+   * made public by common use as inputs or as the resulting change
+   * in past transactions
+   *
    * @return {Promise<Object>}
    */
   async listaddressgroupings() {
@@ -804,8 +976,13 @@ export default class Stealth {
   }
 
   /**
-   * @param {number} [minConf=1]
-   * @param {boolean} [includeEmpty=false]
+   * Returns an array of objects containing:
+   *  "account" : the account of the receiving addresses
+   *  "amount" : total amount received by addresses with this account
+   *  "confirmations" : number of confirmations of the most recent transaction included
+   *
+   * @param {number} [minConf=1] minimum number of confirmations before payments are included
+   * @param {boolean} [includeEmpty=false] whether to include addresses that haven't received any payments
    * @return {Promise<Object>}
    */
   async listreceivedbyaccount(minConf = 1, includeEmpty = false) {
@@ -816,8 +993,14 @@ export default class Stealth {
   }
 
   /**
-   * @param {number} [minConf=1]
-   * @param {boolean} [includeEmpty=false]
+   * Returns an array of objects containing:
+   *   "address" : receiving address
+   *   "account" : the account of the receiving address
+   *   "amount" : total amount received by the address
+   *   "confirmations" : number of confirmations of the most recent transaction included
+   *
+   * @param {number} [minConf=1] minimum number of confirmations before payments are included
+   * @param {boolean} [includeEmpty=false] whether to include addresses that haven't received any payments
    * @return {Promise<Object>}
    */
   async listreceivedbyaddress(minConf = 1, includeEmpty = false) {
@@ -825,9 +1008,11 @@ export default class Stealth {
       parseInt(`${minConf}`),
       !!includeEmpty,
     ]);
-  } // [minconf=1] [includeempty=false]
+  }
 
   /**
+   * Get all transactions in blocks since block [blockHash], or all transactions if omitted
+   *
    * @param {string} [blockHash]
    * @param {number} [targetConfirmations=0]
    * @return {Promise<Object>}
@@ -840,6 +1025,8 @@ export default class Stealth {
   }
 
   /**
+   * List owned StealthAddresses.
+   *
    * @param {string} showSecrets
    * @return {Promise<Object>}
    */
@@ -850,6 +1037,8 @@ export default class Stealth {
   }
 
   /**
+   * Returns up to [count] most recent transactions skipping the first [from] transactions for account [account].
+   *
    * @param {string} account
    * @param {number} count
    * @param {number} from
@@ -864,20 +1053,29 @@ export default class Stealth {
   }
 
   /**
+   * Returns array of unspent transaction outputs
+   * with between minConf and maxConf (inclusive) confirmations.
+   * Optionally filtered to only include txOuts paid to specified addresses.
+   * Results are an array of Objects, each of which has:
+   * {txId, vOut, scriptPubKey, amount, confirmations}
+   *
    * @param {number} [minConf=1]
    * @param {number} [maxConf=9999999]
-   * @param {string[]} [addresses]
+   * @param {string[]} [txOuts] ["address",...]
    * @return {Promise<Object>}
    */
-  async listunspent(minConf = 1, maxConf = 9999999, addresses = []) {
+  async listunspent(minConf = 1, maxConf = 9999999, txOuts = []) {
     return this.request("listunspent", [
       parseInt(`${minConf}`),
       parseInt(`${maxConf}`),
-      addresses.join(","),
+      txOuts.join(","),
     ]);
   }
 
   /**
+   * Make a public/private key pair.
+   * [prefix] is optional preferred prefix for the public key.
+   *
    * @param {string} [prefix]
    * @return {Promise<Object>}
    */
@@ -888,6 +1086,8 @@ export default class Stealth {
   }
 
   /**
+   * Move from one account in your wallet to another.
+   *
    * @param {string} fromAccount
    * @param {string} toAccount
    * @param {number} amount
@@ -944,6 +1144,8 @@ export default class Stealth {
   }
 
   /**
+   * Repair wallet if checkwallet reports any problem.
+   *
    * @return {Promise<Object>}
    */
   async repairwallet() {
@@ -951,6 +1153,8 @@ export default class Stealth {
   }
 
   /**
+   * Re-send unconfirmed transactions.
+   *
    * @return {Promise<Object>}
    */
   async resendtx() {
@@ -958,6 +1162,9 @@ export default class Stealth {
   }
 
   /**
+   * Set reserve amount not participating in network protection.
+   * If no parameters provided current setting is printed.
+   *
    * @param {boolean} [reserve]
    * @param {number} [amount=0]
    * @return {Promise<Object>}
@@ -977,6 +1184,8 @@ export default class Stealth {
   }
 
   /**
+   * Scan blockchain for owned transactions.
+   *
    * @param {number} [fromHeight=0]
    * @return {Promise<Object>}
    */
@@ -987,6 +1196,8 @@ export default class Stealth {
   }
 
   /**
+   * Scan blockchain for owned stealth transactions.
+   *
    * @param {number} [fromHeight=0]
    * @return {Promise<Object>}
    */
@@ -997,13 +1208,13 @@ export default class Stealth {
   }
 
   /**
-   * @param {string} message
-   * @param {string} privateKey
-   * @param {string} minVer
-   * @param {string} maxVer
-   * @param {string} priority
-   * @param {string} id
-   * @param {string} [cancelUpTo]
+   * @param {string} message alert text message
+   * @param {string} privateKey hex string of alert master private key
+   * @param {string} minVer minimum applicable internal client version
+   * @param {string} maxVer maximum applicable internal client version
+   * @param {string} priority integer priority number
+   * @param {string} id alert id (id=0 canels *all* alerts except id=1 alerts)
+   * @param {string} [cancelUpTo] cancels all alert id's up to this number
    * @return {Promise<Object>}
    */
   async sendalert(message, privateKey, minVer, maxVer, priority, id, cancelUpTo = "") {
@@ -1026,7 +1237,7 @@ export default class Stealth {
   /**
    * @param {string} fromAccount
    * @param {string} toXSTAddress
-   * @param {number} amount
+   * @param {number} amount real and is rounded to the nearest 0.000001
    * @param {number} [minConf=1]
    * @param {string} [comment=""]
    * @param {string} [commentTo=""]
@@ -1045,7 +1256,7 @@ export default class Stealth {
 
   /**
    * @param {string} fromAccount
-   * @param {object} addressAmount {address: amount,...}
+   * @param {object} addressAmount {address: amount,...} amounts are double-precision floating point numbers
    * @param {number} [minConf=1]
    * @param {string} [comment=""]
    * @return {Promise<Object>}
@@ -1060,6 +1271,8 @@ export default class Stealth {
   }
 
   /**
+   * Submits raw transaction (serialized, hex-encoded) to local node and network.
+   *
    * @param {string} hex
    * @return {Promise<Object>}
    */
@@ -1071,7 +1284,7 @@ export default class Stealth {
 
   /**
    * @param {string} XSTAddress
-   * @param {number} amount
+   * @param {number} amount real and is rounded to the nearest 0.000001
    * @param {string} [comment=""]
    * @param {string} [commentTo=""]
    * @return {Promise<Object>}
@@ -1087,7 +1300,7 @@ export default class Stealth {
 
   /**
    * @param {string} address
-   * @param {number} amount
+   * @param {number} amount real and is rounded to the nearest 0.000001
    * @param {string} [narration=""]
    * @param {string} [comment=""]
    * @param {string} [commentTo=""]
@@ -1104,6 +1317,8 @@ export default class Stealth {
   }
 
   /**
+   * Sets the account associated with the given address.
+   *
    * @param {string} XSTAddress
    * @param {string} account
    * @return {Promise<Object>}
@@ -1116,10 +1331,10 @@ export default class Stealth {
   }
 
   /**
-   * @param {string} txId
-   * @param {number} vOut
-   * @param {string} alias
-   * @param {string} controller
+   * @param {string} txId transaction ID of the input
+   * @param {number} vOut prevout index of the input
+   * @param {string} alias non-case sensitive staker alias
+   * @param {string} controller compressed pubkey
    * @return {Promise<Object>}
    */
   async setstakercontroller(txId, vOut, alias, controller) {
@@ -1132,11 +1347,11 @@ export default class Stealth {
   }
 
   /**
-   * @param {string} txId
-   * @param {number} vOut
-   * @param {string} alias
-   * @param {string} delegate
-   * @param {string} payout
+   * @param {string} txId transaction ID of the input
+   * @param {number} vOut prevout index of the input
+   * @param {string} alias on-case sensitive staker alias
+   * @param {string} delegate compressed pubkey
+   * @param {string} payout fraction of block rewards to pay to the delegate in millipercent
    * @return {Promise<Object>}
    */
   async setstakerdelegate(txId, vOut, alias, delegate, payout) {
@@ -1150,11 +1365,11 @@ export default class Stealth {
   }
 
   /**
-   * @param {string} txId
-   * @param {number} vOut
-   * @param {string} alias
-   * @param {string} key
-   * @param {number} value
+   * @param {string} txId transaction ID of the input
+   * @param {number} vOut prevout index of the input
+   * @param {string} alias on-case sensitive staker alias
+   * @param {string} key metadata key
+   * @param {number} value metadata value
    * @return {Promise<Object>}
    */
   async setstakermeta(txId, vOut, alias, key, value) {
@@ -1168,10 +1383,10 @@ export default class Stealth {
   }
 
   /**
-   * @param {string} txId
-   * @param {number} vOut
-   * @param {string} alias
-   * @param {string} owner
+   * @param {string} txId transaction ID of the input
+   * @param {number} vOut prevout index of the input
+   * @param {string} alias on-case sensitive staker alias
+   * @param {string} owner owners compressed pubkey
    * @return {Promise<Object>}
    */
   async setstakerowner(txId, vOut, alias, owner) {
@@ -1185,7 +1400,7 @@ export default class Stealth {
   }
 
   /**
-   * @param {number} amount
+   * @param {number} amount is a real and is rounded to the nearest 0.01
    * @return {Promise<Object>}
    */
   async settxfee(amount) {
@@ -1195,6 +1410,8 @@ export default class Stealth {
   }
 
   /**
+   * Sign a message with the private key of an address
+   *
    * @param {string} XSTAddress
    * @param {string} message
    * @return {Promise<Object>}
@@ -1207,6 +1424,8 @@ export default class Stealth {
   }
 
   /**
+   * Sign inputs for raw transaction (serialized, hex-encoded).
+   *
    * @param {string} hex
    * @param {object[]} transactions
    * @param {string[]} privateKeys
@@ -1223,6 +1442,8 @@ export default class Stealth {
   }
 
   /**
+   * Stop StalthCoin server (and possibly override the detachdb config value).
+   *
    * @param {boolean} detach
    * @return {Promise<Object>}
    */
@@ -1231,6 +1452,8 @@ export default class Stealth {
   }
 
   /**
+   * Return information about <XSTaddress>.
+   *
    * @param {string} XSTAddress
    * @return {Promise<Object>}
    */
@@ -1241,6 +1464,8 @@ export default class Stealth {
   }
 
   /**
+   * Return information about <XSTpubkey>.
+   *
    * @param {string} XSTPubKey
    * @return {Promise<Object>}
    */
@@ -1251,6 +1476,8 @@ export default class Stealth {
   }
 
   /**
+   * Verify a signed message
+   *
    * @param {string} XSTAddress
    * @param {string} signature
    * @param {string} message
