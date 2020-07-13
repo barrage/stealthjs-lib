@@ -1,0 +1,36 @@
+{
+  "name": "stealthjs-lib",
+  "version": "0.0.1",
+  "description": "Stealth coin (XST) SDK library for Javascript",
+  "main": "Stealth.js",
+  "scripts": {
+    "test": "./node_modules/.bin/mocha --allow-uncaught",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
+  },
+  "snyk": true,
+  "type": "module",
+  "keywords": [
+    "stealth",
+    "crypto-currency",
+    "xst",
+    "crypto",
+    "privacy",
+    "sdk",
+    "javascript"
+  ],
+  "author": "Tibor Hudik <tibor@barrage.net> (https://blockchain.hr)",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^7.3.1",
+    "babel-eslint": "^10.1.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "mocha": "^8.0.1"
+  },
+  "dependencies": {
+    "ky": "^0.20.0",
+    "ky-universal": "^0.8.1",
+    "snyk": "^1.360.0"
+  }
+}
