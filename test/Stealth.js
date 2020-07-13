@@ -1,11 +1,10 @@
 import Stealth from "../Stealth.js";
 
 const getStealth = () => {
+  // You have to start up the daemon locally for any additional tests to work.
   return new Stealth({
-    host: "195.29.45.123",
+    host: "localhost",
     port: 46503,
-    username: "010101010101010101",
-    password: "1122334411223344",
     debug: true,
   });
 };
