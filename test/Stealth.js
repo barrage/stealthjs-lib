@@ -1,4 +1,4 @@
-import Stealth from "../Stealth.js";
+const Stealth = require("../Stealth");
 
 const getStealth = () => {
   // You have to start up the daemon locally for any additional tests to work.

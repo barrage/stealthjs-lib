@@ -1,10 +1,10 @@
-import Request from "./Request.js";
+const Request = require("./Request");
 
 /**
  * Stealth SDK connector and interaction class
  * @class
  */
-export default class Stealth {
+module.exports = class Stealth {
   /**
    * @param {object} options
    * @constructor

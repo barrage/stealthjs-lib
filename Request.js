@@ -1,10 +1,10 @@
-import ky from "ky-universal";
+const ky = require("ky-universal");
 
 /**
  * Simple class that lets us make requests
  * @class
  */
-export default class Request {
+module.exports = class Request {
   /**
    * @param {Stealth} stealth
    * @param {string} method

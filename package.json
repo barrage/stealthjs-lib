@@ -9,7 +9,6 @@
     "prepublish": "npm run snyk-protect"
   },
   "snyk": true,
-  "type": "module",
   "keywords": [
     "stealth",
     "crypto-currency",
