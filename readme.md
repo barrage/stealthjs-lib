@@ -7,6 +7,16 @@ Install:
 npm install --save stealthjs-lib
 ```
 
+Stealth features:
+ - 5 second block
+ - Fee-less transactions
+ - Cryptographic private transactions
+ - Massive blockchain scalability
+ - On-Chain governance
+ - Supports smart contracts, Blockchain Oracles and side chains
+
+Learn more about Stealth, the fastest private digital currency at the official website https://stealth.org/
+
 # API definition
 
 <a name="request"></a>
