@@ -1490,4 +1490,4 @@ module.exports = class Stealth {
       message,
     ]);
   }
-}
+};

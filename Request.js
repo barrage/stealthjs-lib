@@ -70,7 +70,14 @@ module.exports = class Request {
       console.log(this.url, options);
     }
 
-    const response = await ky(this.url, options).json();
+    let response;
+
+    if (typeof ky !== "function") {
+      response = await ky.default(this.url, options).json();
+    }
+    else {
+      response = await ky(this.url, options).json();
+    }
 
     if (this.stealth.debug) {
       console.log(response);
@@ -82,4 +89,4 @@ module.exports = class Request {
 
     throw new Error(`Stealth Error: ${(response || {}).error || "Did not get any response"}`);
   }
-}
+};
