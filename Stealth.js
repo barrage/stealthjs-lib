@@ -6,66 +6,66 @@ import Request from "./Request.js";
  */
 export default class Stealth {
   /**
-   * Host of the RPC daemon
-   *
-   * @type {string}
-   */
-  host = "localhost";
-
-  /**
-   * port of the RPC daemon
-   *
-   * @type {number}
-   */
-  port = 46502;
-
-  /**
-   * Lets us know if we are using test net for the network
-   *
-   * @type {boolean}
-   */
-  test = false;
-
-  /**
-   * RPC daemon username
-   *
-   * @type {null|string}
-   */
-  username = null;
-
-  /**
-   * RPC daemon password
-   *
-   * @type {null|string}
-   */
-  password = null;
-
-  /**
-   * Version to expect from JSON rpc daemon
-   *
-   * @type {string}
-   */
-  jsonRpc = "2.0";
-
-  /**
-   * Request ID number
-   *
-   * @type {number}
-   */
-  requestId = 0;
-
-  /**
-   * Tell us if we are debugging to display more logs
-   *
-   * @type {boolean}
-   */
-  debug = false;
-
-  /**
    * @param {object} options
    * @constructor
    */
   constructor(options = {}) {
+    /**
+     * Host of the RPC daemon
+     *
+     * @type {string}
+     */
+    this.host = "localhost";
+
+    /**
+     * port of the RPC daemon
+     *
+     * @type {number}
+     */
+    this.port = 46502;
+
+    /**
+     * Lets us know if we are using test net for the network
+     *
+     * @type {boolean}
+     */
+    this.test = false;
+
+    /**
+     * RPC daemon username
+     *
+     * @type {null|string}
+     */
+    this.username = null;
+
+    /**
+     * RPC daemon password
+     *
+     * @type {null|string}
+     */
+    this.password = null;
+
+    /**
+     * Version to expect from JSON rpc daemon
+     *
+     * @type {string}
+     */
+    this.jsonRpc = "2.0";
+
+    /**
+     * Request ID number
+     *
+     * @type {number}
+     */
+    this.requestId = 0;
+
+    /**
+     * Tell us if we are debugging to display more logs
+     *
+     * @type {boolean}
+     */
+    this.debug = false;
+
     if (typeof options !== "object" || !options) {
       options = {
         host: "localhost",

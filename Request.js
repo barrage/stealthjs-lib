@@ -6,34 +6,32 @@ import ky from "ky-universal";
  */
 export default class Request {
   /**
-   * Stealth instance with all global defaults
-   *
-   * @type {Stealth}
-   */
-  stealth;
-
-  /**
-   * Request URL
-   *
-   * @type {string}
-   */
-  url = "";
-
-  /**
-   * Data to be sent in the request as a body or query (for GET)
-   *
-   * @type {object}
-   */
-  bodyOrQuery = {};
-
-  /**
    * @param {Stealth} stealth
    * @param {string} method
    * @param {any[]} params
    * @param {number} id
    */
   constructor(stealth, method = "", params = [], id) {
+    /**
+     * Stealth instance with all global defaults
+     *
+     * @type {Stealth}
+     */
     this.stealth = stealth;
+
+    /**
+     * Request URL
+     *
+     * @type {string}
+     */
+    this.url = "";
+
+    /**
+     * Data to be sent in the request as a body or query (for GET)
+     *
+     * @type {{}}
+     */
+    this.bodyOrQuery = {};
 
     if (this.stealth.host.startsWith("http")) {
       this.url = `${this.stealth.host}:${this.stealth.port}`;
