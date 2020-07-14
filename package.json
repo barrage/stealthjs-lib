@@ -4,7 +4,7 @@
   "description": "Stealth coin (XST) SDK library for Javascript",
   "main": "Stealth.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --experimental-modules --allow-uncaught",
+    "test": "./node_modules/.bin/mocha --allow-uncaught",
     "snyk-protect": "snyk protect",
     "prepublish": "npm run snyk-protect"
   },

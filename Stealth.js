@@ -25,13 +25,6 @@ module.exports = class Stealth {
     this.port = 46502;
 
     /**
-     * Lets us know if we are using test net for the network
-     *
-     * @type {boolean}
-     */
-    this.test = false;
-
-    /**
      * RPC daemon username
      *
      * @type {null|string}
@@ -70,7 +63,6 @@ module.exports = class Stealth {
       options = {
         host: "localhost",
         port: 46502,
-        test: false,
       };
     }
 
@@ -94,7 +86,6 @@ module.exports = class Stealth {
       this.jsonRpc = options.jsonRpc;
     }
 
-    this.test = !!options.test;
     this.debug = !!options.debug;
   }
 

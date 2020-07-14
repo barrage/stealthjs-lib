@@ -17,6 +17,23 @@ Stealth features:
 
 Learn more about Stealth, the fastest private digital currency at the official website https://stealth.org/
 
+# Usage
+
+```js
+const Stealth = require('stealthjs-lib');
+
+const client = new Stealth({
+  host: "localhost", // Host for the RPC daemon
+  port: 46502, // Port for the RPC daemon
+  username: "rpcclientusername", // Username for RPC daemon
+  password: "rpcclientpassword", // Password for RPC daemon
+  jsonRpc: "2.0", // JSON rpc version
+  debug: false, // Turns on logging of the request and response
+});
+
+await client.help();
+```
+
 # API definition
 
 <a name="request"></a>
