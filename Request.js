@@ -73,18 +73,33 @@ module.exports = class Request {
     let response;
 
     if (typeof ky !== "function") {
-      response = await ky.default(this.url, options).json();
+      response = await ky.default(this.url, options);
     }
     else {
-      response = await ky(this.url, options).json();
+      response = await ky(this.url, options);
     }
 
-    if (this.stealth.debug) {
-      console.log(response);
-    }
+    if (response && response.ok && !response.error) {
+      const data = await response.text();
+      let parsed;
 
-    if (response && !response.error) {
-      return response;
+      if (data.startsWith("{")) {
+        try {
+          parsed = JSON.parse(data);
+        }
+        catch (error) {
+          parsed = data;
+        }
+      }
+      else {
+        parsed = data;
+      }
+
+      if (this.stealth.debug) {
+        console.log(parsed);
+      }
+
+      return parsed;
     }
 
     throw new Error(`Stealth Error: ${(response || {}).error || "Did not get any response"}`);
