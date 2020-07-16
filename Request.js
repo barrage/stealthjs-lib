@@ -83,7 +83,7 @@ module.exports = class Request {
       const data = await response.text();
       let parsed;
 
-      if (data.startsWith("{")) {
+      if (data.startsWith("{") || data.startsWith("[")) {
         try {
           parsed = JSON.parse(data);
         }

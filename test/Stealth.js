@@ -4,7 +4,7 @@ const getStealth = () => {
   // You have to start up the daemon locally for any additional tests to work.
   return new Stealth({
     host: "localhost",
-    port: 46503,
+    port: 8080,
     debug: true,
   });
 };

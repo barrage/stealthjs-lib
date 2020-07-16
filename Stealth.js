@@ -353,11 +353,11 @@ module.exports = class Stealth {
    " return the second 100 outputs (if possible).
    *
    * @param {string} address
-   * @param {number} [start=0]
+   * @param {number} [start=1]
    * @param {number} [max=100]
    * @return {Promise<Object>}
    */
-  async getaddressoutputs(address, start = 0, max = 100) {
+  async getaddressoutputs(address, start = 1, max = 100) {
     return this.request("getaddressoutputs", [
       address,
       parseInt(`${start}`),

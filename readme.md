@@ -233,7 +233,7 @@ Returns [max] outputs of <address> beginning with [start]
 | Param | Type | Default |
 | --- | --- | --- |
 | address | <code>string</code> |  |
-| [start] | <code>number</code> | <code>0</code> |
+| [start] | <code>number</code> | <code>1</code> |
 | [max] | <code>number</code> | <code>100</code> |
 
 <a name="getadjustedtime"></a>
