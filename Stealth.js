@@ -102,7 +102,7 @@ module.exports = class Stealth {
 
     this.requestId += 1;
 
-    return response.result || {};
+    return response;
   }
 
   /**
