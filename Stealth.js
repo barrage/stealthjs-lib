@@ -753,11 +753,11 @@ module.exports = class Stealth {
   /**
    * Returns the number of addresses with balances greater than [minimum].
    *
-   * @param {number} [start=0]
+   * @param {number} [start=1]
    * @param {number} [max=10]
    * @return {Promise<Object>}
    */
-  async getrichlist(start = 0, max = 10) {
+  async getrichlist(start = 1, max = 10) {
     const params = [];
 
     if ((start || start === 0) && typeof start === "number") {
