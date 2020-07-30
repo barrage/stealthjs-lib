@@ -1,20 +1,12 @@
 const Stealth = require("../Stealth");
 
 const getStealth = () => {
-  // You have to start up the daemon locally for any additional tests to work.
-  return new Stealth({
-    host: "localhost",
-    port: 8080,
-    debug: true,
-  });
+  return new Stealth("https://api.stealthmonitor.xyz");
 };
 
 describe("Stealth", function () {
-  it("Should instantiate Stealth class without failing", async function () {
-    getStealth();
-  });
-  // All additional tests cannot be performed since public testnet RPC is still not available
-  // it("Should display help", async function () {
-  //   await getStealth().help();
-  // });
+  it("Should instantiate Stealth class without failing and get help", async function () {
+    const client = getStealth();
+    await client.help();
+  }).timeout(60000);
 });

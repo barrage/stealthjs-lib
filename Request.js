@@ -33,11 +33,14 @@ module.exports = class Request {
      */
     this.bodyOrQuery = {};
 
-    if (this.stealth.host.startsWith("http")) {
-      this.url = `${this.stealth.host}:${this.stealth.port}`;
+    this.url = `${this.stealth.protocol}//${this.stealth.host}`;
+
+    if (this.stealth.port) {
+      this.url += `:${this.stealth.port}`;
     }
-    else {
-      this.url = `http://${this.stealth.host}:${this.stealth.port}`;
+
+    if (this.stealth.pathname) {
+      this.url += `${this.stealth.pathname}`;
     }
 
     this.bodyOrQuery = JSON.parse(JSON.stringify({

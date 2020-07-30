@@ -6,10 +6,17 @@ const Request = require("./Request");
  */
 module.exports = class Stealth {
   /**
-   * @param {object} options
+   * @param {string|object} options
    * @constructor
    */
   constructor(options = {}) {
+    /**
+     * Protocol to use for connection
+     *
+     * @type {string}
+     */
+    this.protocol = "http:";
+
     /**
      * Host of the RPC daemon
      *
@@ -23,6 +30,13 @@ module.exports = class Stealth {
      * @type {number}
      */
     this.port = 46502;
+
+    /**
+     * Path to RPC location
+     *
+     * @type {string}
+     */
+    this.pathname = "/";
 
     /**
      * RPC daemon username
@@ -59,11 +73,34 @@ module.exports = class Stealth {
      */
     this.debug = false;
 
+    if (typeof options === "string" && options) {
+      const url = new URL(options);
+      options = {
+        protocol: url.protocol,
+        host: url.host,
+        port: url.port,
+        pathname: url.pathname,
+        username: url.username,
+        password: url.password,
+      };
+
+      if (!options.port && options.protocol === "https:") {
+        options.port = 443;
+      }
+      else if (!options.port && options.protocol === "http:") {
+        options.port = 80;
+      }
+    }
+
     if (typeof options !== "object" || !options) {
       options = {
         host: "localhost",
         port: 46502,
       };
+    }
+
+    if (typeof options.protocol === "string" && options.protocol) {
+      this.protocol = options.protocol;
     }
 
     if (typeof options.host === "string" && options.host) {
@@ -72,6 +109,10 @@ module.exports = class Stealth {
 
     if (options.port && !isNaN(parseInt(options.port))) {
       this.port = parseInt(options.port);
+    }
+
+    if (typeof options.pathname === "string" && options.pathname) {
+      this.pathname = options.pathname;
     }
 
     if (options.username && typeof options.username === "string") {
