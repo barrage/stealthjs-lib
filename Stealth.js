@@ -371,6 +371,22 @@ module.exports = class Stealth {
   }
 
   /**
+   * Returns [max] inputs + outputs of <address> beginning with [start]
+   *
+   * @param {string} address
+   * @param {number} [start=1]
+   * @param {number} [max=100]
+   * @return {Promise<Object>}
+   */
+  async getaddressinouts(address, start = 1, max = 100) {
+    return this.request("getaddressinouts", [
+      address,
+      parseInt(`${start}`),
+      parseInt(`${max}`),
+    ]);
+  }
+
+  /**
    * Returns [max] inputs of <address> beginning with [start]
    " For example, if [start]=101 and [max]=100 means to
    " return the second 100 inputs (if possible).
