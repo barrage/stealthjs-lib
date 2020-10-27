@@ -75,7 +75,7 @@ Check wallet for integrity.
 <a name="claimqposbalance"></a>
 
 ### claimqposbalance(txId, vOut, amount) ⇒ <code>Promise.&lt;Object&gt;</code>
-"claimqposbalance <txId> <vOut> <amount>
+claimqposbalance <txId> <vOut> <amount>
    <txId> is the transaction ID of the input
    <vOut> is the prevout index of the input
    <amount> is the amount to claim
@@ -165,10 +165,11 @@ Encrypts the wallet with <passphrase>
 
 ### exitreplay() ⇒ <code>Promise.&lt;Object&gt;</code>
 Manually exits registry replay (testnet only).
+
 <a name="getaccount"></a>
 
 ### getaccount(XSTAddress) ⇒ <code>Promise.&lt;Object&gt;</code>
-Returns the current XST address for receiving payments to this account.
+Returns the account associated with the given address.
 
 | Param | Type |
 | --- | --- |
@@ -210,12 +211,27 @@ Returns info about <address>.
 | --- | --- |
 | address | <code>string</code> |
 
+<a name="getaddressinouts"></a>
+
+### getaddressinouts(address, [start], [max]) ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns [max] inputs + outputs of <address> beginning with [start]
+For example, if [start]=101 and [max]=100 means to 
+return the second 100 in-outs (if possible).
+[start] is the nth in-out (default: 1) 
+[max] is the max in-outs to return (default: 100)
+
+| Param | Type | Default |
+| --- | --- | --- |
+| address | <code>string</code> |  |
+| [start] | <code>number</code> | <code>1</code> |
+| [max] | <code>number</code> | <code>100</code> |
+
 <a name="getaddressinputs"></a>
 
 ### getaddressinputs(address, [start], [max]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns [max] inputs of <address> beginning with [start]
-   " For example, if [start]=101 and [max]=100 means to
-   " return the second 100 inputs (if possible).
+For example, if [start]=101 and [max]=100 means to
+return the second 100 inputs (if possible).
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -227,8 +243,8 @@ Returns [max] inputs of <address> beginning with [start]
 
 ### getaddressoutputs(address, [start], [max]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns [max] outputs of <address> beginning with [start]
-   " For example, if [start]=101 and [max]=100 means to
-   " return the second 100 outputs (if possible).
+For example, if [start]=101 and [max]=100 means to
+return the second 100 outputs (if possible).
 
 | Param | Type | Default |
 | --- | --- | --- |
@@ -240,6 +256,7 @@ Returns [max] outputs of <address> beginning with [start]
 
 ### getadjustedtime() ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns the Stealth network adjusted time.
+
 <a name="getbalance"></a>
 
 ### getbalance(account, [minConf]) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -295,6 +312,7 @@ Returns details of a block with given block-number.
 
 ### getblockcount() ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns the number of blocks in the longest block chain
+
 <a name="getblockhash"></a>
 
 ### getblockhash(index) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -337,6 +355,15 @@ RMSD of the block intervals for the window in seconds
 | windowSize | <code>string</code> |
 | windowSpacing | <code>string</code> |
 
+<a name="getblockschedule"></a>
+
+### getblockschedule(blocks) ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns details of Stealthnodes in the block schedule
+
+| Param | Type |
+| --- | --- |
+| blocks | <code>string</code> |
+
 <a name="getcheckpoint"></a>
 
 ### getcheckpoint() ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -356,14 +383,17 @@ Returns key and address information about the child.
 
 ### getconnectioncount() ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns the number of connections to other nodes.
+
 <a name="getdifficulty"></a>
 
 ### getdifficulty() ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns the difficulty as a multiple of the minimum difficulty.
+
 <a name="gethashespersec"></a>
 
 ### gethashespersec() ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns a recent hashes per second performance measurement while generating.
+
 <a name="gethdaccount"></a>
 
 ### gethdaccount(extendedKey) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -373,14 +403,25 @@ Returns all transactions for the hdaccount.
 | --- | --- |
 | extendedKey | <code>string</code> |
 
+<a name="gethourlymissed"></a>
+
+### gethourlymissed(hours) ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns an object with an array of numbers that represent number of missed blocks in the last <hours>.
+
+| Param | Type |
+| --- | --- |
+| hours | <code>number</code> |
+
 <a name="getinfo"></a>
 
 ### getinfo() ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns an object containing various state info.
+
 <a name="getmininginfo"></a>
 
 ### getmininginfo() ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns an object containing mining-related information.
+
 <a name="getnewaddress"></a>
 
 ### getnewaddress([account]) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -424,6 +465,19 @@ Returns a new StealthAddress for receiving payments anonymously.
 
 ### getpeerinfo() ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns data about each connected network node.
+
+<a name="getpicpowermean"></a>
+
+### getpicopowermean(period, windowSize, windowSpacing) ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns an object with attributes: window_start: starting time of each window, number_blocks: number of blocks in each window, pico_power_mean: mean expressed in units of 1e-12 power".
+
+| Param | Type |
+| --- | --- |
+| period | <code>number</code> |
+| windowSize | <code>number</code> |
+| windowSpacing | <code>number</code> |
+
+
 <a name="getqposbalance"></a>
 
 ### getqposbalance(pubKey) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -480,6 +534,15 @@ Returns the total amount received by <XSTaddress> in transactions with at least 
 | XSTAddress | <code>string</code> |  |
 | [minConf] | <code>number</code> | <code>1</code> |
 
+<a name="getrecentqueue"></a>
+
+### getrecentqueue(blocks) ⇒ <code>Promise.&lt;Object&gt;</code>
+<blocks> is the number of blocks to look back. Returns a 1, 0  array, where 1 is hit and 0 is miss. The array is ordered chronologically.
+
+| Param | Type | Default |
+| --- | --- | --- |
+| blocks | <code>number</code> |  |
+
 <a name="getrichlist"></a>
 
 ### getrichlist([start], [max]) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -498,6 +561,20 @@ Returns the number of addresses with balances greater than [minimum].
 | Param | Type | Default |
 | --- | --- | --- |
 | [minimum] | <code>number</code> | <code>0</code> |
+
+<a name="getstakersbyid"></a>
+
+### getstakersbyid([disqualified]) ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns details of StealthNodes by ascending id. Optional [disqualified=false] includes disqualified stakers if true.
+
+| Param | Type | Default |
+| --- | --- | --- |
+| [disqualified] | <code>bool</code> | <code>false</code> |
+
+<a name="getstakersbyweight"></a>
+
+### getstakersbyweight() ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns details of Stealthnodes in descending weight.
 
 <a name="getstakerid"></a>
 
@@ -522,6 +599,28 @@ Returns exhaustive information about the qPoS registry.
 
 ### getstakerprice() ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns the current staker price.
+
+<a name="getstakerpriceinfo"></a>
+
+### getstakerpriceinfo() ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns staker price history and ROI information. 
+<stakers> is the number of stakers for which to calculate prices.
+
+| Param | Type |
+| --- | --- |
+| stakers | <code>number</code> |
+
+<a name="getstakersranked"></a>
+
+### getstakersranked() ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns details of StealthNodes in descending weight.
+
+
+<a name="getstakersummary"></a>
+
+### getstakersummary() ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns a summary of the state and activity of Stealthnodes.
+
 <a name="getsubsidy"></a>
 
 ### getsubsidy([nTarget]) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -967,4 +1066,3 @@ Verify a signed message
 | XSTAddress | <code>string</code> |
 | signature | <code>string</code> |
 | message | <code>string</code> |
-

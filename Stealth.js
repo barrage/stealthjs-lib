@@ -265,7 +265,7 @@ module.exports = class Stealth {
    * @return {Promise<Object>}
    */
   async dumpprivkey(XSTAddress) {
-    return this.request("disablestaker", [
+    return this.request("dumpprivkey", [
       XSTAddress,
     ]);
   }
@@ -282,7 +282,7 @@ module.exports = class Stealth {
    * @return {Promise<Object>}
    */
   async enablestaker(txId, vOut, alias) {
-    return this.request("disablestaker", [
+    return this.request("enablestaker", [
       txId,
       parseInt(`${vOut}`),
       alias,
@@ -311,7 +311,7 @@ module.exports = class Stealth {
   }
 
   /**
-   * Returns the current XST address for receiving payments to this account.
+   * Returns the account associated with the given address."
    *
    * @param {string} XSTAddress
    * @return {Promise<Object>}
@@ -568,6 +568,17 @@ module.exports = class Stealth {
   }
 
   /**
+   * Returns details of StealthNodes in the block schedule.
+   * @param {number} blocks
+   * @return {Promise<Object>}
+   */
+  async getblockschedule(blocks) {
+    return this.request("getblockschedule", [
+      parseInt(`${blocks}`),
+    ]);
+  }
+
+  /**
    * Show info of synchronized checkpoint.
    *
    * @return {Promise<Object>}
@@ -631,7 +642,20 @@ module.exports = class Stealth {
    * @return {Promise<Object>}
    */
   async gethdaccount(extendedKey) {
-    return this.request("gethdaccount");
+    return this.request("gethdaccount", [
+      extendedKey,
+    ]);
+  }
+
+  /**
+   * Returns an object containing an array of numbers of blocks missed in the last <hours>.
+   * @param {number} hours
+   * @return {Promise<Object>}
+   */
+  async gethourlymissed(hours) {
+    return this.request("gethourlymissed", [
+      parseInt(`${hours}`),
+    ]);
   }
 
   /**
@@ -713,6 +737,21 @@ module.exports = class Stealth {
     }
 
     return this.request("getnewstealthaddress", params);
+  }
+
+  /**
+   * Returns an object with attributes: window_start: starting time of each window, number_blocks: number of blocks in each window, pico_power_mean: mean expressed in units of 1e-12 power".
+   * @param {number} period
+   * @param {number} windowsize
+   * @param {number} windowspacing
+   * @return {Promise<Object>}
+   */
+  async getpicopowermean(period, windowsize, windowspacing) {
+    return this.request("getpicopowermean", [
+      parseInt(`${period}`),
+      parseInt(`${windowsize}`),
+      parseInt(`${windowspacing}`),
+    ]);
   }
 
   /**
@@ -808,6 +847,18 @@ module.exports = class Stealth {
   }
 
   /**
+   * <blocks> is the number of blocks to look back. Returns a 1, 0 array, where 1 is hit and 0 is miss. The array is ordered chronologically.
+   *
+   * @param {number} blocks
+   * @return {Promise<Object>}
+   */
+  async getrecentqueue(blocks) {
+    return this.request("getrecentqueue", [
+      parseInt(`${blocks}`),
+    ]);
+  }
+
+  /**
    * Returns the number of addresses with balances greater than [minimum].
    *
    * @param {number} [start=1]
@@ -849,6 +900,25 @@ module.exports = class Stealth {
   }
 
   /**
+   * Returns details of StealthNodes by ascending id. Optional [disqualified=false] includes disqualified stakers if true.
+   * @param {bool} [disqualified=false]
+   * @return {Promise<Object>}
+   */
+  async getstakersbyid(disqualified = false) {
+    return this.request("getstakersbyid", [
+      !!disqualified,
+    ]);
+  }
+
+  /**
+   * Returns details of Stealthnodes in descending weight.
+   * @return {Promise<Object>}
+   */
+  async getstakersbyweight() {
+    return this.request("getstakersbyweight");
+  }
+
+  /**
    * Returns the id of the staker registered with <alias>.
    *
    * @param {string} alias
@@ -880,6 +950,33 @@ module.exports = class Stealth {
    */
   async getstakerprice() {
     return this.request("getstakerprice");
+  }
+
+  /**
+   * Returns staker price history and ROI information. <stakers> is the number of stakers for which to calculate prices.
+   * @param {number} stakers
+   * @return {Promise<Object>}
+   */
+  async getstakerpriceinfo(stakers) {
+    return this.request("getstakerpriceinfo", [
+      parseInt(`${stakers}`),
+    ]);
+  }
+
+  /**
+   * Returns details of StealthNodes in descending weight.
+   * @return {Promise<Object>}
+   */
+  async getstakersranked() {
+    return this.request("getstakersranked");
+  }
+
+  /**
+   * Returns a summary of the state and activity of StealthNodes
+   * @return {Promise<Object>}
+   */
+  async getstakersummary() {
+    return this.request("getstakersummary");
   }
 
   /**
@@ -966,7 +1063,7 @@ module.exports = class Stealth {
    * @return {Promise<Object>}
    */
   async importprivkey(XSTPrivateKey, label = "") {
-    return this.request("disablestaker", [
+    return this.request("importprivkey", [
       XSTPrivateKey,
       label,
     ]);

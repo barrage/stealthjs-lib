@@ -1,4 +1,4 @@
-const ky = require("ky-universal");
+const fetch = require("node-fetch");
 
 /**
  * Simple class that lets us make requests
@@ -59,7 +59,7 @@ module.exports = class Request {
   async make() {
     const options = {
       method: "POST",
-      json: this.bodyOrQuery,
+      body: JSON.stringify(this.bodyOrQuery),
       headers: {
         "Content-Type": "application/json",
       },
@@ -73,38 +73,7 @@ module.exports = class Request {
       console.log(this.url, options);
     }
 
-    let response;
-
-    if (typeof ky !== "function") {
-      response = await ky.default(this.url, options);
-    }
-    else {
-      response = await ky(this.url, options);
-    }
-
-    if (response && response.ok && !response.error) {
-      const data = await response.text();
-      let parsed;
-
-      if (data.startsWith("{") || data.startsWith("[")) {
-        try {
-          parsed = JSON.parse(data);
-        }
-        catch (error) {
-          parsed = data;
-        }
-      }
-      else {
-        parsed = data;
-      }
-
-      if (this.stealth.debug) {
-        console.log(parsed);
-      }
-
-      return parsed;
-    }
-
-    throw new Error(`Stealth Error: ${(response || {}).error || "Did not get any response"}`);
+    const response = await (await fetch(this.url, options)).json();
+    return response;
   }
 };

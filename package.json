@@ -1,6 +1,6 @@
 {
   "name": "stealthjs-lib",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Stealth coin (XST) SDK library for Javascript",
   "main": "Stealth.js",
   "scripts": {
@@ -31,8 +31,7 @@
     "node": ">=12.16.1"
   },
   "dependencies": {
-    "ky": "^0.20.0",
-    "ky-universal": "^0.8.1",
+    "node-fetch": "^2.6.1",
     "snyk": "^1.360.0"
   }
 }
