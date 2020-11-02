@@ -571,11 +571,6 @@ Returns details of StealthNodes by ascending id. Optional [disqualified=false] i
 | --- | --- | --- |
 | [disqualified] | <code>bool</code> | <code>false</code> |
 
-<a name="getstakersbyweight"></a>
-
-### getstakersbyweight() ⇒ <code>Promise.&lt;Object&gt;</code>
-Returns details of Stealthnodes in descending weight.
-
 <a name="getstakerid"></a>
 
 ### getstakerid(alias) ⇒ <code>Promise.&lt;Object&gt;</code>
@@ -610,11 +605,10 @@ Returns staker price history and ROI information.
 | --- | --- |
 | stakers | <code>number</code> |
 
-<a name="getstakersranked"></a>
+<a name="getstakersbyweight"></a>
 
-### getstakersranked() ⇒ <code>Promise.&lt;Object&gt;</code>
-Returns details of StealthNodes in descending weight.
-
+### getstakersbyweight() ⇒ <code>Promise.&lt;Object&gt;</code>
+Returns details of Stealthnodes in descending weight.
 
 <a name="getstakersummary"></a>
 

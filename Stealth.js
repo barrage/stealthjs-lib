@@ -964,14 +964,6 @@ module.exports = class Stealth {
   }
 
   /**
-   * Returns details of StealthNodes in descending weight.
-   * @return {Promise<Object>}
-   */
-  async getstakersranked() {
-    return this.request("getstakersranked");
-  }
-
-  /**
    * Returns a summary of the state and activity of StealthNodes
    * @return {Promise<Object>}
    */
