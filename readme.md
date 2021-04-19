@@ -215,9 +215,9 @@ Returns info about <address>.
 
 ### getaddressinouts(address, [start], [max]) ⇒ <code>Promise.&lt;Object&gt;</code>
 Returns [max] inputs + outputs of <address> beginning with [start]
-For example, if [start]=101 and [max]=100 means to 
+For example, if [start]=101 and [max]=100 means to
 return the second 100 in-outs (if possible).
-[start] is the nth in-out (default: 1) 
+[start] is the nth in-out (default: 1)
 [max] is the max in-outs to return (default: 100)
 
 | Param | Type | Default |
@@ -598,7 +598,7 @@ Returns the current staker price.
 <a name="getstakerpriceinfo"></a>
 
 ### getstakerpriceinfo() ⇒ <code>Promise.&lt;Object&gt;</code>
-Returns staker price history and ROI information. 
+Returns staker price history and ROI information.
 <stakers> is the number of stakers for which to calculate prices.
 
 | Param | Type |
@@ -1060,3 +1060,14 @@ Verify a signed message
 | XSTAddress | <code>string</code> |
 | signature | <code>string</code> |
 | message | <code>string</code> |
+
+<a name="getcharacterspg"></a>
+
+### getcharacterspg(page, perPage, ordering) ⇒ <code>Promise.&lt;Object&gt;</code>
+Verify a signed message
+
+| Param | Type |
+| --- | --- |
+| page | <code>nubmer</code> |
+| perPage | <code>nubmer</code> |
+| ordering | <code>boolean</code> |
