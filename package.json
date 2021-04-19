@@ -21,17 +21,18 @@
   "author": "Tibor Hudik <tibor@barrage.net> (https://blockchain.hr)",
   "license": "MIT",
   "devDependencies": {
-    "eslint": "^7.3.1",
     "babel-eslint": "^10.1.0",
-    "eslint-config-airbnb-base": "^14.2.0",
-    "eslint-plugin-import": "^2.22.0",
-    "mocha": "^8.0.1"
+    "chai": "^4.3.4",
+    "eslint": "^7.24.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "mocha": "^8.3.2"
   },
   "engines": {
     "node": ">=12.16.1"
   },
   "dependencies": {
     "node-fetch": "^2.6.1",
-    "snyk": "^1.360.0"
+    "snyk": "^1.552.0"
   }
 }

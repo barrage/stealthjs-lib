@@ -1627,4 +1627,20 @@ module.exports = class Stealth {
       message,
     ]);
   }
+
+  /**
+   * Get nft characters with pagination
+   *
+   * @param {page} number
+   * @param {perPage} number
+   * @param {ordering} boolean
+   * @return {Promise<Object>}
+   */
+  async getcharacterspg(page = 1, perPage = 1, ordering = true) {
+    return this.request("getcharacterspg", [
+      parseInt(`${page}`),
+      parseInt(`${perPage}`),
+      ordering,
+    ]);
+  }
 };
