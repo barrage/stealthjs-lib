@@ -23,16 +23,16 @@
   "devDependencies": {
     "babel-eslint": "^10.1.0",
     "chai": "^4.3.4",
-    "eslint": "^7.24.0",
+    "eslint": "^7.25.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.22.1",
-    "mocha": "^8.3.2"
+    "mocha": "^8.4.0"
   },
   "engines": {
     "node": ">=12.16.1"
   },
   "dependencies": {
     "node-fetch": "^2.6.1",
-    "snyk": "^1.552.0"
+    "snyk": "^1.585.0"
   }
 }
