@@ -893,7 +893,7 @@ module.exports = class Stealth {
     const params = [];
 
     if ((minimum || minimum === 0) && typeof minimum === "number") {
-      params.push(parseInt(`${minimum}`));
+      params.push(parseFloat(`${minimum}`));
     }
 
     return this.request("getrichlistsize", params);
