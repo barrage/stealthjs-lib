@@ -33,6 +33,6 @@
   },
   "dependencies": {
     "node-fetch": "^2.6.1",
-    "snyk": "^1.585.0"
+    "snyk": "^1.667.0"
   }
 }
