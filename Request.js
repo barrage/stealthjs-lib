@@ -73,7 +73,14 @@ module.exports = class Request {
       console.log(this.url, options);
     }
 
-    const response = await (await fetch(this.url, options)).json();
+    const fetchAPI = await fetch(this.url, options);
+    let response = {};
+    try {
+      response = await fetchAPI.json();
+    } catch (e) {
+      console.log('[stealthjs-lib] Error parsing response JSON: %s', JSON.stringify(e, null, 2));
+    }
+    
     return response;
   }
 };
