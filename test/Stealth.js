@@ -1,7 +1,7 @@
 const chai = require("chai");
 const Stealth = require("../Stealth");
 const getStealth = () => {
-  return new Stealth("https://api-web.stealthmonitor.xyz");
+  return new Stealth("https://api-mainnet-latest.stealthmonitor.xyz/");
 };
 
 describe("Stealth", function () {
