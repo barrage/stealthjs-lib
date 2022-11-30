@@ -34,6 +34,6 @@
   "dependencies": {
     "json-bigint": "^1.0.0",
     "node-fetch": "^2.6.1",
-    "snyk": "^1.759.0"
+    "snyk": "^1.1064.0"
   }
 }
